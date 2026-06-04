@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مدیریت ابزارهای حرفه‌ای Gemini</title>
+    <link rel="stylesheet" href="css/library.css">
+    <link rel="stylesheet" href="css/highlight-default.min.css">
+    <link rel="stylesheet" href="lib/katex/katex.min.css">
+    <script src="lib/katex/katex.min.js"></script>
+    <script src="lib/katex/contrib/auto-render.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 15px;
+            background-color: var(--gpl-bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+
+        body, *{
+            font-family: var(--gpl-font-family);
+        }
+
+        #gemini-prompt-library-modal {
+            position: static !important;
+            background: none !important;
+            display: flex;
+            width: 100%;
+            height: auto !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .gpl-modal-content {
+            width: 100%;
+            height: auto;
+            max-height: none !important;
+            overflow: visible !important;
+            border: 1px solid var(--gpl-border-color);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        #gpl-close-modal-btn {
+            display: none;
+        }
+
+        #gpl-theme-toggle {
+            background: none;
+            border: none;
+            color: var(--gpl-secondary-text-color);
+            cursor: pointer;
+            padding: 5px;
+            font-size: 1.2em;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+        #gpl-theme-toggle:hover {
+            color: var(--gpl-text-color);
+        }
+    </style>
+</head>
+<body class="gpl-theme-active-dark">
+    <div id="gemini-prompt-library-modal" class="visible"></div>
+    <script src="js/settings_custom.js"></script>
+    <script src="lib/marked.min.js"></script>
+    <script src="lib/dompurify.min.js"></script>
+    <script src="lib/highlight.min.js"></script>
+    <script src="js/library_common.js"></script>
+</body>
+</html>

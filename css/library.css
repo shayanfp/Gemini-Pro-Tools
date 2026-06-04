@@ -1,0 +1,746 @@
+:root {
+    --gpl-font-family: var(--gpl-active-font, 'Vazirmatn', Tahoma, Arial, sans-serif);
+    --gpl-bg-color: #1e1f20;
+    --gpl-text-color: #e8eaed;
+    --gpl-secondary-text-color: #bdc1c6;
+    --gpl-border-color: rgba(232, 234, 237, 0.15); /* Subtle border */
+    --gpl-primary-color: #8ab4f8;
+    --gpl-primary-hover-color: #a1c2fa;
+    --gpl-secondary-color: rgba(60, 64, 67, 0.7); /* Glass effect */
+    --gpl-secondary-hover-color: rgba(77, 81, 84, 0.8);
+    --gpl-item-bg-color: rgba(40, 42, 44, 0.7);
+    --gpl-shadow-color: rgba(0,0,0,0.5);
+    --gpl-glow-color: rgba(138, 180, 248, 0.3);
+}
+
+#gemini-prompt-library-modal.gpl-light-theme {
+    --gpl-bg-color: #ffffff;
+    --gpl-text-color: #202124;
+    --gpl-secondary-text-color: #5f6368;
+    --gpl-border-color: rgba(32, 33, 36, 0.1);
+    --gpl-primary-color: #1a73e8;
+    --gpl-primary-hover-color: #4285f4;
+    --gpl-secondary-color: rgba(241, 243, 244, 0.7);
+    --gpl-secondary-hover-color: rgba(232, 234, 237, 0.8);
+    --gpl-item-bg-color: rgba(248, 249, 250, 0.7);
+    --gpl-shadow-color: rgba(0,0,0,0.2);
+    --gpl-glow-color: rgba(26, 115, 232, 0.3);
+}
+
+/* --- Base font settings for all elements --- */
+#gemini-prompt-library-modal,
+#gemini-prompt-library-modal input,
+#gemini-prompt-library-modal textarea,
+#gemini-prompt-library-modal button,
+.gpl-alarm-popup-content,
+.gpl-alarm-popup-content button {
+    font-family: var(--gpl-font-family) !important;
+}
+
+#gemini-prompt-library-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    direction: rtl;
+}
+
+#gemini-prompt-library-modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.gpl-modal-content {
+    background-color: var(--gpl-bg-color);
+    color: var(--gpl-text-color);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--gpl-border-color);
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px var(--gpl-shadow-color);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow-y: auto;
+}
+
+.gpl-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--gpl-border-color);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.gpl-modal-header h1 { font-size: 1.4em; margin: 0; }
+#gpl-close-modal-btn { background: none; border: none; color: var(--gpl-secondary-text-color); cursor: pointer; padding: 5px; }
+#gpl-close-modal-btn:hover { color: var(--gpl-text-color); }
+
+.gpl-prompt-form { display: flex; flex-direction: column; gap: 10px; }
+.gpl-prompt-form input, .gpl-prompt-form textarea {
+    background-color: var(--gpl-secondary-color); border: 1px solid var(--gpl-border-color); border-radius: 8px;
+    padding: 10px; color: var(--gpl-text-color); font-size: 14px; width: 100%;
+    box-sizing: border-box; resize: vertical; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+}
+.gpl-prompt-form input:focus, .gpl-prompt-form textarea:focus { outline: none; border-color: var(--gpl-primary-color); }
+.gpl-form-buttons { display: flex; gap: 10px; }
+.gpl-btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease; flex-grow: 1; }
+.gpl-btn-primary { background-color: var(--gpl-primary-color); color: var(--gpl-bg-color); }
+.gpl-btn-primary:hover { background-color: var(--gpl-primary-hover-color); transform: translateY(-2px); box-shadow: 0 4px 15px var(--gpl-glow-color); }
+.gpl-btn-secondary { background-color: var(--gpl-secondary-color); color: var(--gpl-text-color); border: 1px solid var(--gpl-border-color); }
+.gpl-btn-secondary:hover { background-color: var(--gpl-secondary-hover-color); }
+
+.gpl-prompt-list-container { margin-top: 24px; overflow-y: visible; flex-grow: 1; min-height: initial; }
+.gpl-prompt-list-container h2 { font-size: 1em; color: var(--gpl-secondary-text-color); margin-top: 0; }
+.gpl-prompt-item { background-color: var(--gpl-item-bg-color); border: 1px solid var(--gpl-border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.gpl-prompt-content { flex-grow: 1; min-width: 0; }
+.gpl-prompt-title { font-size: 1em; font-weight: bold; color: var(--gpl-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gpl-prompt-preview { font-size: 0.9em; color: var(--gpl-secondary-text-color); margin: 4px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gpl-prompt-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.gpl-btn-icon { background: none; border: none; color: var(--gpl-secondary-text-color); cursor: pointer; padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+.gpl-btn-icon:hover { background-color: var(--gpl-secondary-hover-color); color: var(--gpl-text-color); transform: scale(1.1); }
+.gpl-btn-icon svg { width: 18px; height: 18px; }
+.gpl-empty-message { text-align: center; color: var(--gpl-secondary-text-color); padding: 20px; }
+
+#gemini-prompt-library-modal .gpl-modal-content main { flex-grow: 1; overflow-y: visible; }
+
+
+/* =========================================================================
+   Styles migrated from JavaScript (chat buttons, settings, etc.)
+========================================================================= */
+
+.conversation-container { container-type: inline-size; }
+@container (max-width: 450px) {
+    .gemini-pro-tools-buttons .gpt-button-text { display: none; }
+    .gemini-pro-tools-buttons button { padding: 5px 8px; }
+}
+chat-window.immersives-mode .gemini-pro-tools-buttons .gpt-button-text {
+    display: none;
+}
+chat-window.immersives-mode .gemini-pro-tools-buttons .gpl-button {
+    padding: 5px 8px;
+}
+.gpl-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 5px 10px; border-radius: 8px;
+    font-size: 14px; cursor: pointer;
+    margin-left: 8px; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.gpl-theme-active-dark .gpl-button {
+    border: 1px solid #5f6368; background-color: transparent; color: #e8eaed;
+}
+.gpl-theme-active-dark .gpl-button:hover { background-color: #3c4043; }
+.gpl-theme-active-dark .gemini-copy-response-btn { border: none; }
+
+.gpl-theme-active-light .gpl-button {
+    border: 1px solid #dadce0; background-color: transparent; color: #444746;
+}
+.gpl-theme-active-light .gpl-button.gpl-input-action-button
+,.gpl-theme-active-dark .gpl-button.gpl-input-action-button {
+    border: unset;
+}
+.gpl-theme-active-light .gpl-button:hover { background-color: #f1f3f4; }
+.gpl-theme-active-light .gemini-copy-response-btn { border: none; }
+
+#gpl-notify-btn, #gpl-alarm-btn {
+    margin-right: 8px;
+    padding: 0px 12px;
+    height: 40px;
+}
+#gpl-notify-container { direction: rtl; }
+#gpl-notify-container > #gpl-notify-btn { margin-left: 0; margin-left: 8px; }
+#gpl-notify-container > #gpl-alarm-btn { margin-left: 8px; margin-right: 0; }
+
+.gpl-theme-active-dark #gpl-notify-btn.active, .gpl-theme-active-dark .gpl-input-action-button.active {
+    background-color: #8ab4f8; color: #202124; border-color: #8ab4f8;
+}
+
+.gpl-theme-active-light .gpl-toolbar-icon-button:hover, .gpl-theme-active-light .gpl-input-action-button:hover { background-color: #ededed; }
+.gpl-theme-active-dark .gpl-toolbar-icon-button:hover, .gpl-theme-active-dark .gpl-input-action-button:hover { background-color: rgba(255,255,255,0.1); }
+
+.gpl-theme-active-light #gpl-notify-btn.active, .gpl-theme-active-light .gpl-input-action-button.active {
+    background-color: #1a73e8; color: #ffffff; border-color: #1a73e8;
+}
+.gpl-theme-active-dark #gpl-alarm-btn.active {
+    background-color: #f28b82; color: #202124; border-color: #f28b82;
+}
+.gpl-theme-active-light #gpl-alarm-btn.active {
+    background-color: #d93025; color: #ffffff; border-color: #d93025;
+}
+.gpl-notify-btn .gpt-button-text, .gpl-alarm-btn .gpt-button-text {
+    display: inline-block !important;
+}
+
+#gpl-alarm-popup {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); display: flex;
+    align-items: center; justify-content: center; z-index: 10000;
+    backdrop-filter: blur(5px);
+}
+.gpl-alarm-popup-content {
+    background-color: var(--gpl-bg-color); color: var(--gpl-text-color);
+    padding: 30px 40px; border-radius: 12px; text-align: center;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    border: 1px solid var(--gpl-border-color);
+    direction: rtl; 
+}
+.gpl-alarm-popup-content p { margin: 0 0 20px 0; font-size: 1.2em; }
+#gpl-stop-alarm-btn {
+    padding: 12px 25px; border: none; border-radius: 8px;
+    cursor: pointer; font-size: 1em; font-weight: 500;
+    background-color: var(--gpl-primary-color); color: var(--gpl-bg-color);
+    transition: background-color 0.2s ease;
+}
+#gpl-stop-alarm-btn:hover { background-color: var(--gpl-primary-hover-color); }
+
+/* Styles for Toolbar and Input Action Buttons */
+.gpl-toolbar-icon-button, .gpl-input-action-button {
+    padding: 0; width: 35px; height: 35px; border-radius: 50%;
+    margin: 0 4px; flex-shrink: 0; border: none; background: transparent;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.gpl-input-action-button { margin-left: 0; margin-right: 0; }
+.gpl-input-action-button > span:first-child, .gpl-toolbar-icon-button > span:first-child { width: 20px !important; height: 20px !important; }
+
+.gpl-theme-active-dark .gpl-toolbar-icon-button.active { background-color: #8ab4f8; color: #202124; }
+.gpl-theme-active-dark .gpl-toolbar-icon-button.active:hover { background-color: #a1c2fa; }
+.gpl-theme-active-light .gpl-toolbar-icon-button.active { background-color: #1a73e8; color: #ffffff; }
+.gpl-theme-active-light .gpl-toolbar-icon-button.active:hover { background-color: #4285f4; }
+
+/* Ensure the editor itself also respects the direction */
+immersive-panel immersive-editor { transition: direction 0.2s; }
+
+/* Styles for Notification Settings */
+.gpl-settings-section { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--gpl-border-color); }
+.gpl-settings-section h2 { font-size: 1em; color: var(--gpl-secondary-text-color); margin-top: 0; margin-bottom: 12px; }
+.gpl-settings-options { display: flex; flex-direction: column; gap: 10px; }
+.gpl-radio-option {
+    display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 8px;
+    cursor: pointer; border: 1px solid transparent; transition: background-color 0.2s, border-color 0.2s;
+}
+.gpl-radio-option:hover { background-color: var(--gpl-secondary-hover-color); }
+.gpl-radio-option.selected { border-color: var(--gpl-primary-color); }
+.gpl-radio-check {
+    width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--gpl-secondary-text-color);
+    display: flex; align-items: center; justify-content: center; transition: border-color 0.2s;
+}
+.gpl-radio-option.selected .gpl-radio-check { border-color: var(--gpl-primary-color); }
+.gpl-radio-check::after {
+    content: ''; width: 10px; height: 10px; border-radius: 50%; background-color: var(--gpl-primary-color);
+    transform: scale(0); transition: transform 0.2s ease;
+}
+.gpl-radio-option.selected .gpl-radio-check::after { transform: scale(1); }
+
+/* Styles for new Import/Export section */
+.gpl-import-export-section { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--gpl-border-color); }
+.gpl-import-export-section h2 { font-size: 1em; color: var(--gpl-secondary-text-color); margin-top: 0; margin-bottom: 12px; }
+.gpl-import-export-buttons { display: flex; gap: 10px; }
+.gpl-import-export-buttons .gpl-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-grow: 1; }
+
+
+/* =========================================================================
+   Styles for Markdown export button and loading screen
+========================================================================= */
+
+/* Floating chat export button */
+.gpl-floating-btn {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    background-color: var(--gpl-item-bg-color);
+    color: var(--gpl-text-color);
+    border: 1px solid var(--gpl-border-color);
+    padding: 10px 16px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.gpl-theme-active-light .gpl-floating-btn {
+    background-color: #ffffff;
+    color: #1a73e8;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-color: #dadce0;
+}
+
+.gpl-floating-btn:hover {
+    transform: translateY(-2px);
+    background-color: var(--gpl-primary-color);
+    color: var(--gpl-bg-color);
+    border-color: var(--gpl-primary-color);
+}
+
+.gpl-theme-active-light .gpl-floating-btn:hover {
+    background-color: #1a73e8;
+    color: #ffffff;
+}
+
+.gpl-floating-btn .gpl-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Loading screen during export */
+#gpl-export-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.gpl-export-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.gpl-export-loader p {
+    color: #ffffff;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: 500;
+    direction: rtl;
+}
+
+.gpl-export-loader .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-top: 4px solid var(--gpl-primary-color);
+    border-radius: 50%;
+    animation: gpl-spin 1s linear infinite;
+}
+
+}
+
+/* =========================================================================
+   Styles for chat library and Markdown display
+========================================================================= */
+
+/* Tab styles */
+.gpl-tabs {
+    display: flex;
+    gap: 10px;
+    background: var(--gpl-secondary-color);
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid var(--gpl-border-color);
+}
+
+.gpl-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--gpl-secondary-text-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.gpl-tab-btn:hover {
+    color: var(--gpl-text-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.gpl-tab-btn.active {
+    background: var(--gpl-primary-color);
+    color: var(--gpl-bg-color);
+    box-shadow: 0 4px 10px var(--gpl-glow-color);
+}
+
+/* General chat layout */
+.gpl-chats-layout {
+    display: flex;
+    gap: 20px;
+    height: 65vh; /* Fixed height for internal scrolling */
+}
+
+.gpl-chats-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    border-left: 1px solid var(--gpl-border-color);
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+#gpl-chat-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.gpl-chat-list-item {
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--gpl-item-bg-color);
+    border: 1px solid var(--gpl-border-color);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.gpl-chat-list-item:hover {
+    background: var(--gpl-secondary-hover-color);
+}
+
+.gpl-chat-list-item.active {
+    border-color: var(--gpl-primary-color);
+    box-shadow: 0 0 10px var(--gpl-glow-color);
+}
+
+.gpl-chat-list-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gpl-chat-list-date {
+    font-size: 11px;
+    color: var(--gpl-secondary-text-color);
+}
+
+.gpl-chat-view-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--gpl-bg-color);
+    border-radius: 12px;
+    border: 1px solid var(--gpl-border-color);
+    overflow: hidden;
+}
+
+.gpl-chat-header {
+    padding: 15px 20px;
+    background: var(--gpl-item-bg-color);
+    border-bottom: 1px solid var(--gpl-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gpl-chat-header h2 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--gpl-primary-color);
+}
+
+.gpl-chat-date {
+    font-size: 12px;
+    color: var(--gpl-secondary-text-color);
+}
+
+.gpl-chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Chat bubbles */
+.gpl-message-bubble {
+    max-width: 85%;
+    padding: 15px 20px;
+    border-radius: 18px;
+    line-height: 1.8;
+    font-size: 15px;
+    word-wrap: break-word;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.gpl-message-user {
+    align-self: flex-start; /* Since layout is RTL, flex-start is right-aligned */
+    background: var(--gpl-primary-color);
+    color: var(--gpl-bg-color);
+    border-top-right-radius: 4px;
+}
+
+.gpl-message-ai {
+    align-self: flex-end; /* Left-aligned */
+    background: var(--gpl-item-bg-color);
+    color: var(--gpl-text-color);
+    border: 1px solid var(--gpl-border-color);
+    border-top-left-radius: 4px;
+}
+
+/* Markdown styles inside AI message */
+.gpl-message-ai h1, .gpl-message-ai h2, .gpl-message-ai h3 {
+    margin-top: 0;
+    color: var(--gpl-primary-color);
+}
+
+.gpl-message-ai a {
+    color: var(--gpl-primary-color);
+    text-decoration: none;
+}
+
+.gpl-message-ai a:hover {
+    text-decoration: underline;
+}
+
+.gpl-message-ai pre {
+    background: #1e1e1e !important;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    direction: ltr; /* Code blocks are always LTR */
+    text-align: left;
+    border: 1px solid var(--gpl-border-color);
+}
+
+.gpl-theme-active-light .gpl-message-ai pre {
+    background: #f5f5f5 !important;
+    border-color: #ddd;
+}
+
+.gpl-message-ai code {
+    font-family: monospace;
+    background: rgba(0,0,0,0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.gpl-theme-active-light .gpl-message-ai code {
+    background: rgba(0,0,0,0.05);
+}
+
+.gpl-message-ai pre code {
+    background: transparent;
+    padding: 0;
+}
+
+/* Modern tables in Markdown */
+.gpl-message-ai table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 15px 0;
+    border: 1px solid var(--gpl-border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.gpl-message-ai th, .gpl-message-ai td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--gpl-border-color);
+    border-left: 1px solid var(--gpl-border-color);
+    text-align: right;
+}
+
+.gpl-message-ai th:first-child, .gpl-message-ai td:first-child {
+    border-left: none;
+}
+
+.gpl-message-ai th {
+    background: rgba(255,255,255,0.05);
+    font-weight: bold;
+    color: var(--gpl-primary-color);
+}
+
+.gpl-message-ai tr:last-child td {
+    border-bottom: none;
+}
+
+.gpl-message-ai tr:hover td {
+    background: rgba(255,255,255,0.02);
+}
+
+.gpl-theme-active-light .gpl-message-ai th {
+    background: rgba(0,0,0,0.03);
+}
+
+.gpl-theme-active-light .gpl-message-ai tr:hover td {
+    background: rgba(0,0,0,0.02);
+}
+
+/* Manual MD import modal */
+.gpl-md-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.gpl-md-modal-content {
+    background: var(--gpl-bg-color);
+    padding: 24px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    border: 1px solid var(--gpl-border-color);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* =========================================================================
+   Fullscreen styles and "Show More" button
+========================================================================= */
+
+.gpl-modal-fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    padding: 20px !important;
+}
+
+.gpl-fullscreen-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000;
+    background: var(--gpl-bg-color);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.gpl-fullscreen-active .gpl-chats-sidebar {
+    display: none; /* Hide sidebar in fullscreen mode */
+}
+
+.gpl-fullscreen-active .gpl-chats-layout {
+    height: 100%; /* Use full height in fullscreen mode */
+}
+
+.gpl-read-more-btn {
+    background: rgba(0,0,0,0.15);
+    border: none;
+    color: var(--gpl-bg-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.2s;
+    display: block;
+}
+
+.gpl-read-more-btn:hover {
+    background: rgba(0,0,0,0.25);
+}
+
+.gpl-theme-active-light .gpl-read-more-btn {
+    background: rgba(255,255,255,0.25);
+    color: var(--gpl-bg-color);
+}
+.gpl-theme-active-light .gpl-read-more-btn:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+.gpl-user-msg-text {
+    white-space: pre-wrap;
+}
+.leading-actions-wrapper { gap: 5px; }
+
+
+/* KaTeX Custom Styles for Markdown Math */
+.gpl-message-bubble .katex { direction: ltr !important; display: inline-block !important; font-size: 1.15em !important; }
+.gpl-message-bubble .katex-display { display: block !important; margin: 1em 0 !important; text-align: center !important; overflow-x: auto; overflow-y: hidden; }
+.gpl-message-bubble .katex-display > .katex { display: inline-block !important; text-align: initial; }
+
+/* =========================================================================
+   English (LTR) Override Styles
+   ========================================================================= */
+.gpl-lang-en {
+    direction: ltr !important;
+}
+
+.gpl-lang-en #gemini-prompt-library-modal {
+    direction: ltr !important;
+}
+
+.gpl-lang-en .gpl-chats-sidebar {
+    border-left: none;
+    border-right: 1px solid var(--gpl-border-color);
+    padding-left: 0;
+    padding-right: 15px;
+}
+
+.gpl-lang-en .gpl-message-user {
+    align-self: flex-end;
+    border-top-right-radius: 18px;
+    border-top-left-radius: 4px;
+}
+
+.gpl-lang-en .gpl-message-ai {
+    align-self: flex-start;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 4px;
+}
+
+.gpl-lang-en .gpl-button {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.gpl-lang-en #gpl-notify-container > #gpl-notify-btn {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+.gpl-lang-en #gpl-notify-container > #gpl-alarm-btn {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.gpl-lang-en .gpl-message-ai th, 
+.gpl-lang-en .gpl-message-ai td {
+    border-left: none;
+    border-right: 1px solid var(--gpl-border-color);
+    text-align: left;
+}
+
+.gpl-lang-en .gpl-message-ai th:first-child, 
+.gpl-lang-en .gpl-message-ai td:first-child {
+    border-right: none;
+}
+
