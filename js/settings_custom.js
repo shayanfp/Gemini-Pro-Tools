@@ -86,7 +86,7 @@
     const persianRegex = /[ابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی]/;
 
     function processMarkdownLists() {
-        const listItems = document.querySelectorAll('.markdown ul > li:not(.gpl-rtl-processed)');
+        const listItems = document.querySelectorAll('.markdown ul > li:not(.gpl-rtl-processed), .markdown ol > li:not(.gpl-rtl-processed)');
         listItems.forEach(li => {
             li.classList.add('gpl-rtl-processed');
             const textContent = li.textContent || "";
