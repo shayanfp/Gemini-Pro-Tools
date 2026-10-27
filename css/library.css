@@ -744,3 +744,239 @@ immersive-panel immersive-editor { transition: direction 0.2s; }
     border-right: none;
 }
 
+/* --- GPL Custom Table Enhancements --- */
+.gpl-custom-table-wrapper {
+    position: relative !important;
+    margin: 24px 0 !important;
+    transition: opacity 0.3s ease !important;
+    z-index: 10 !important;
+    
+    /* Vercel Light Theme Variables */
+    --table-bg: #ffffff;
+    --table-header-bg: #fafafa;
+    --table-border-color: #e5e5e5;
+    --table-text-main: #171717;
+    --table-text-header: #404040;
+    --table-row-hover: #f5f5f5;
+    --table-row-alt: #fafafa;
+    
+    --btn-bg: #ffffff;
+    --btn-border: #e5e5e5;
+    --btn-text: #525252;
+    --btn-hover-bg: #f5f5f5;
+    --btn-hover-border: #d4d4d4;
+    --btn-hover-text: #171717;
+    
+    --btn-active-bg: #e5e5e5;
+    --btn-active-border: #a3a3a3;
+    --btn-active-text: #171717;
+}
+
+.gpl-theme-active-dark .gpl-custom-table-wrapper {
+    /* Vercel Dark/Carbon Theme Variables */
+    --table-bg: #0a0a0a;
+    --table-header-bg: #171717;
+    --table-border-color: #262626;
+    --table-text-main: #e5e5e5;
+    --table-text-header: #a3a3a3;
+    --table-row-hover: #1f1f1f;
+    --table-row-alt: #171717;
+    
+    --btn-bg: #171717;
+    --btn-border: #262626;
+    --btn-text: #a3a3a3;
+    --btn-hover-bg: #262626;
+    --btn-hover-border: #404040;
+    --btn-hover-text: #f5f5f5;
+    
+    --btn-active-bg: #262626;
+    --btn-active-border: #525252;
+    --btn-active-text: #f5f5f5;
+}
+
+.gpl-table-controls {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+}
+
+.gpl-table-control-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: var(--btn-bg) !important;
+    border: 1px solid var(--btn-border) !important;
+    color: var(--btn-text) !important;
+    border-radius: 20px !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-family: inherit !important;
+}
+
+.gpl-table-control-btn:hover {
+    background: var(--btn-hover-bg) !important;
+    border-color: var(--btn-hover-border) !important;
+    color: var(--btn-hover-text) !important;
+    transform: translateY(-1px) !important;
+}
+
+.gpl-table-control-btn:active {
+    transform: translateY(0) !important;
+}
+
+.gpl-table-control-btn.active {
+    background: var(--btn-active-bg) !important;
+    border-color: var(--btn-active-border) !important;
+    color: var(--btn-active-text) !important;
+    font-weight: 600 !important;
+}
+
+.gpl-custom-table-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    background: var(--table-bg) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04), 0 1px 8px rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid var(--table-border-color) !important;
+}
+
+.gpl-theme-active-dark .gpl-custom-table-container {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 1px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.gpl-custom-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: none !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    color: var(--table-text-main) !important;
+}
+
+.gpl-custom-table th, 
+.gpl-custom-table td {
+    padding: 14px 18px !important;
+    border: 1px solid var(--table-border-color) !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/* Remove outer edges of the table cell borders to let the container's border be clean */
+.gpl-custom-table tr:first-child th {
+    border-top: none !important;
+}
+.gpl-custom-table tr:last-child td {
+    border-bottom: none !important;
+}
+.gpl-custom-table th:first-child,
+.gpl-custom-table td:first-child {
+    border-left: none !important;
+}
+.gpl-custom-table th:last-child,
+.gpl-custom-table td:last-child {
+    border-right: none !important;
+}
+
+/* Headers */
+.gpl-custom-table th {
+    background: var(--table-header-bg) !important;
+    font-weight: 600 !important;
+    color: var(--table-text-header) !important;
+    white-space: nowrap !important;
+}
+
+/* Alternating rows for modern look */
+.gpl-custom-table tbody tr:nth-child(even) {
+    background: var(--table-row-alt) !important;
+}
+
+/* Hover effect on rows */
+.gpl-custom-table tbody tr {
+    transition: background-color 0.15s ease !important;
+}
+
+.gpl-custom-table tbody tr:hover {
+    background: var(--table-row-hover) !important;
+}
+
+/* Cell alignment classes */
+.gpl-cell-ltr {
+    direction: ltr !important;
+    text-align: center !important;
+}
+
+.gpl-cell-rtl {
+    direction: rtl !important;
+    text-align: center !important;
+}
+
+.gpl-custom-table-rtl {
+    direction: rtl !important;
+}
+
+.gpl-custom-table-ltr {
+    direction: ltr !important;
+}
+
+.gpl-custom-table p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Force center alignment for inner elements like Gemini's spans and paragraphs */
+.gpl-custom-table th *, 
+.gpl-custom-table td * {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+/* Force inherit color/size properties for inner elements to prevent Gemini leaks (leave font-family untouched) */
+.gpl-custom-table th *:not(code), 
+.gpl-custom-table td *:not(code) {
+    color: inherit !important;
+    font-size: inherit !important;
+}
+
+.gpl-custom-table th code, 
+.gpl-custom-table td code {
+    color: inherit !important;
+    font-size: inherit !important;
+}
+
+.gpl-custom-table th p,
+.gpl-custom-table td p,
+.gpl-custom-table th div,
+.gpl-custom-table td div {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+}
+
+.gpl-custom-table td a {
+    color: #1a73e8 !important;
+}
+
+.gpl-theme-active-dark .gpl-custom-table td a {
+    color: #8ab4f8 !important;
+}
+
+.gpl-original-table-hidden .table-content {
+    display: none !important;
+}
+
+/* Ensure parents don't clip our negatively margined table */
+.conversation-container,
+message-list,
+chat-item,
+message-row,
+message-content,
+.markdown-main-panel,
+response-element {
+    overflow: visible !important;
+    overflow-x: visible !important;
+}

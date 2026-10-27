@@ -18,7 +18,10 @@
         markdown: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20v18H2z"></path><path d="m14 13 3 4 3-4"></path><path d="M17 17V7"></path><path d="M4 17V7l3 5 3-5v10"></path></svg>`,
         copy: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`,
         fullscreen: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`,
-        minimize: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`
+        minimize: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`,
+        eye: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
+        eyeOff: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`,
+        flip: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>`
     };
 
     GPL.locales = {
@@ -91,8 +94,13 @@
             extensionWarning: "> ⚠️ **اخطار اکستنشن:** ارتباط با دکمه‌ی کپی ناموفق بود (احتمالاً به دلیل قطعی اینترنت یا محدودیت مرورگر). پیام‌های هوش مصنوعی مستقیماً از روی صفحه استخراج شده‌اند و ممکن است قالب‌بندی markdown کاملی نداشته باشند.\n\n---\n\n",
             exportSuccessTitle: "✨ خروجی موفق: چتت در مورد چی بود؟!",
             exportSuccessDesc: "عنوان چت را برای ذخیره وارد کنید و عملیات‌های مورد نظر را انتخاب نمایید:",
+            includeHeaderOption: "افزودن هدر و مشخصات چت در ابتدای فایل",
+            includeHeaderDefault: "افزودن هدر و مشخصات چت به صورت پیش‌فرض",
             downloadMarkdownOption: "دانلود فایل Markdown",
             addToLibraryOption: "افزودن به کتابخانه چت‌ها",
+            copyFullMarkdown: "کپی کل محتوا (Markdown)",
+            copiedFullMarkdown: "کل متن با موفقیت کپی شد!",
+            copyError: "خطا در کپی متن",
             confirmAndFinish: "تایید و اتمام",
             exportSuccessAlert: "عملیات خروجی با موفقیت انجام شد، اما به دلیل اختلال در کپی برخی پیام‌ها (مثل قطعی اینترنت یا مسدود شدن کلیپ‌بورد)، اکستنشن از \"متد بحرانی\" برای نجات دادن پیام‌ها استفاده کرد. لطفاً پیام‌های دارای اخطار ⚠️ را در فایل دانلودی چک کنید.",
             aiProcessingFinished: "پردازش هوش مصنوعی به پایان رسید!",
@@ -115,7 +123,10 @@
             customFontTitle: "فونت دلخواه (سراسری)",
             customFontPlaceholder: "مثلا iransans (اگر خالی باشد، وزیرمتن لود می‌شود)",
             devSignature: "طراحی شده با 💚 توسط <strong>شایان فرهنگ پژوه</strong>",
-            devWebsiteUrl: "https://shayanfp.ir"
+            devWebsiteUrl: "https://shayanfp.ir",
+            showOriginalTable: "نمایش جدول اصلی",
+            hideOriginalTable: "مخفی کردن جدول اصلی",
+            flipTableDirection: "تغییر جهت جدول (راست/چپ)"
         },
         en: {
             geminiTools: "Gemini Tools",
@@ -186,8 +197,13 @@
             extensionWarning: "> ⚠️ **Extension Warning:** Connection with the copy button failed (possibly due to network issues or browser restrictions). AI messages were extracted directly from the page and may lack complete markdown formatting.\n\n---\n\n",
             exportSuccessTitle: "✨ Successful Export: What was your chat about?",
             exportSuccessDesc: "Enter chat title to save and select desired actions:",
+            includeHeaderOption: "Include title, date & header at top",
+            includeHeaderDefault: "Include chat header by default",
             downloadMarkdownOption: "Download Markdown file",
             addToLibraryOption: "Add to chat library",
+            copyFullMarkdown: "Copy Full Markdown",
+            copiedFullMarkdown: "Full content copied!",
+            copyError: "Failed to copy text",
             confirmAndFinish: "Confirm & Finish",
             exportSuccessAlert: "Export completed successfully, but due to issues copying some messages (like network disconnect or clipboard block), the extension used the \"critical method\" to recover messages. Please check messages with ⚠️ warning in the downloaded file.",
             aiProcessingFinished: "AI processing finished!",
@@ -210,7 +226,10 @@
             customFontTitle: "Custom Font (Global)",
             customFontPlaceholder: "e.g., iransans (loads Vazirmatn if empty)",
             devSignature: "Designed with 💚 by <strong>Shayan Farhang Pazhooh</strong>",
-            devWebsiteUrl: "https://shayanfp.ir/en"
+            devWebsiteUrl: "https://shayanfp.ir/en",
+            showOriginalTable: "Show Original Table",
+            hideOriginalTable: "Hide Original Table",
+            flipTableDirection: "Flip Table Direction"
         }
     };
 
@@ -353,6 +372,10 @@
                         <h2 data-gpl-t="chatExportDefaults">${GPL.t('chatExportDefaults')}</h2>
                         <div class="gpl-settings-options">
                             <label class="gpl-radio-option" style="cursor: pointer; justify-content: flex-start;">
+                                <input type="checkbox" id="gpl-setting-export-header" style="width: 18px; height: 18px; accent-color: #34a853;">
+                                <span data-gpl-t="includeHeaderDefault">${GPL.t('includeHeaderDefault')}</span>
+                            </label>
+                            <label class="gpl-radio-option" style="cursor: pointer; justify-content: flex-start;">
                                 <input type="checkbox" id="gpl-setting-export-dl" style="width: 18px; height: 18px; accent-color: #34a853;">
                                 <span data-gpl-t="downloadDefault">${GPL.t('downloadDefault')}</span>
                             </label>
@@ -459,6 +482,7 @@
         saveMdBtn = document.getElementById('gpl-save-md-btn');
         importMdText = document.getElementById('gpl-import-md-text');
 
+        chkExportHeader = document.getElementById('gpl-setting-export-header');
         chkExportDl = document.getElementById('gpl-setting-export-dl');
         chkExportLib = document.getElementById('gpl-setting-export-lib');
 
@@ -493,6 +517,7 @@
         });
 
         // Setup settings listeners
+        if (chkExportHeader) chkExportHeader.addEventListener('change', (e) => chrome.storage.local.set({ gpl_export_include_header: e.target.checked }));
         if (chkExportDl) chkExportDl.addEventListener('change', (e) => chrome.storage.local.set({ gpl_export_download: e.target.checked }));
         if (chkExportLib) chkExportLib.addEventListener('change', (e) => chrome.storage.local.set({ gpl_export_save_library: e.target.checked }));
 
@@ -885,6 +910,7 @@
     function loadAndApplyNotificationSetting() {
         chrome.storage.local.get({ 
             gpl_notification_setting: 'none',
+            gpl_export_include_header: true,
             gpl_export_download: true,
             gpl_export_save_library: true,
             gpl_lang: 'fa',
@@ -896,6 +922,7 @@
                 opt.classList.toggle('selected', opt.dataset.value === setting);
             });
             
+            if (chkExportHeader) chkExportHeader.checked = data.gpl_export_include_header !== false;
             if (chkExportDl) chkExportDl.checked = data.gpl_export_download;
             if (chkExportLib) chkExportLib.checked = data.gpl_export_save_library;
 
