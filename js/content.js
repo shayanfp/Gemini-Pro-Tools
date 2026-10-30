@@ -133,6 +133,32 @@
         return "";
     }
 
+    function isCodeBlockElement(el) {
+        if (!el) return false;
+        return !!el.closest('code-block, .code-block, pre, .formatted-code-block-internal-container');
+    }
+
+    function isCodeCopyButton(btn) {
+        if (!btn) return false;
+        if (isCodeBlockElement(btn)) return true;
+
+        const aria = (btn.getAttribute('aria-label') || '').toLowerCase();
+        const tooltip = (btn.getAttribute('gemtooltip') || '').toLowerCase();
+        const parentAria = (btn.parentElement?.getAttribute('arialabel') || '').toLowerCase();
+        const parentTooltip = (btn.parentElement?.getAttribute('gemtooltip') || '').toLowerCase();
+        const testId = (btn.getAttribute('data-test-id') || btn.parentElement?.getAttribute('data-test-id') || '').toLowerCase();
+        const btnClass = (btn.className || '') + ' ' + (btn.parentElement?.className || '');
+
+        if (testId.includes('gem-copy-button') || testId.includes('code')) return true;
+        if (aria.includes('code') || aria.includes('کد')) return true;
+        if (tooltip.includes('code') || tooltip.includes('کد')) return true;
+        if (parentAria.includes('code') || parentAria.includes('کد')) return true;
+        if (parentTooltip.includes('code') || parentTooltip.includes('کد')) return true;
+        if (btnClass.includes('download-button')) return true;
+
+        return false;
+    }
+
     function findUserQueryCopyButton(userQuery) {
         if (!userQuery) return null;
         const btn = userQuery.querySelector(
@@ -147,28 +173,69 @@
             '.luminous-actions-container button[aria-label*="Copy"], ' +
             '.luminous-actions-container button[aria-label*="کپی"]'
         );
-        if (btn) return btn;
+        if (btn && !isCodeCopyButton(btn)) return btn;
 
         const icon = userQuery.querySelector('.luminous-actions-container mat-icon[fonticon="copy"], .luminous-actions-container mat-icon[data-mat-icon-name="copy"]');
-        if (icon) return icon.closest('button');
+        if (icon) {
+            const b = icon.closest('button');
+            if (b && !isCodeCopyButton(b)) return b;
+        }
 
         return null;
     }
 
     function findModelResponseCopyButton(modelResponse) {
         if (!modelResponse) return null;
-        const btn = modelResponse.querySelector(
-            'button[aria-label="Copy"], ' +
-            'gem-icon-button[data-test-id="copy-button"] button, ' +
-            'button[data-test-id="copy-button"], ' +
-            'button[aria-label="کپی"], ' +
-            'button[aria-label*="Copy"], ' +
-            'button[aria-label*="کپی"]'
-        );
-        if (btn) return btn;
 
-        const icon = modelResponse.querySelector('mat-icon[fonticon="copy"], mat-icon[data-mat-icon-name="copy"]');
-        if (icon) return icon.closest('button');
+        // 1. Primary & safest: Look inside the footer / message-actions container
+        const actionsContainer = modelResponse.querySelector('message-actions, .response-container-footer, .actions-container-v2');
+        if (actionsContainer) {
+            // Priority 1: <copy-button> Angular custom element
+            const copyBtnInsideTag = actionsContainer.querySelector('copy-button button');
+            if (copyBtnInsideTag && !isCodeCopyButton(copyBtnInsideTag)) {
+                return copyBtnInsideTag;
+            }
+
+            // Priority 2: Buttons in actionsContainer with exact copy labels
+            const exactBtn = actionsContainer.querySelector(
+                'button[aria-label="Copy"], ' +
+                'button[aria-label="کپی"], ' +
+                'button[aria-label="Copy response"], ' +
+                'button[aria-label="کپی پاسخ"], ' +
+                'gem-icon-button[gemtooltip="Copy response"] button, ' +
+                'gem-icon-button[gemtooltip="کپی پاسخ"] button, ' +
+                'gem-icon-button[arialabel="Copy"] button, ' +
+                'gem-icon-button[arialabel="کپی"] button, ' +
+                '[data-test-id="copy-button"] button, ' +
+                'button[data-test-id="copy-button"]'
+            );
+            if (exactBtn && !isCodeCopyButton(exactBtn)) {
+                return exactBtn;
+            }
+
+            // Priority 3: Fallback inside actionsContainer by icon
+            const icon = actionsContainer.querySelector('mat-icon[fonticon="copy"], mat-icon[data-mat-icon-name="copy"]');
+            if (icon) {
+                const btn = icon.closest('button');
+                if (btn && !isCodeCopyButton(btn)) {
+                    return btn;
+                }
+            }
+        }
+
+        // 2. Secondary: <copy-button> tag anywhere in modelResponse (strictly excluding code blocks)
+        const allCopyButtonTags = modelResponse.querySelectorAll('copy-button button');
+        for (const btn of allCopyButtonTags) {
+            if (!isCodeCopyButton(btn)) return btn;
+        }
+
+        // 3. Last fallback: any button in modelResponse with exact "Copy" or "کپی" label, strictly excluding code blocks
+        const candidates = modelResponse.querySelectorAll(
+            'button[aria-label="Copy"], button[aria-label="کپی"], [data-test-id="copy-button"] button, button[data-test-id="copy-button"]'
+        );
+        for (const btn of candidates) {
+            if (!isCodeCopyButton(btn)) return btn;
+        }
 
         return null;
     }

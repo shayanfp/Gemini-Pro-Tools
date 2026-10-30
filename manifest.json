@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Gemini Pro Tools",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "author": "Shayan Farhang Pazhooh (shayanfp.ir)",
   "homepage_url": "https://github.com/shayanfp",
   "description": "ابزارهایی برای حرفه‌ای‌ها در Gemini: کپی دقیق، کتابخانه پرامپت، و اعلان صوتی در پایان پردازش.",
